@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tea_trover/screens/BillofMonth.dart';
+import 'package:tea_trover/screens/profile.dart';
 import 'package:tea_trover/screens/wrapper.dart';
 
 Future<void> main() async {
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Wrapper(),
+      home: Wrapper (),
     );
   }
 }

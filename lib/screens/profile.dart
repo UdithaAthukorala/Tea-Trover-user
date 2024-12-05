@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinput/pinput.dart';
+import 'package:tea_trover/screens/phoneNumberVerification.dart';
 
 import '../controllers/controllers.dart';
 import '../global.dart';
@@ -95,6 +97,24 @@ class _ProfileState extends State<Profile> {
 
   }
 
+  void logOut(){
+
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) => ProgressDialog()
+    );
+
+    FirebaseAuth.instance.signOut().then((onValue){
+      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Phonenumberverification(),), (route) => false,);
+
+    }).catchError((onError){
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: onError.message);
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -125,7 +145,7 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Text("My Profile",
                     style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold
                     ),
                   ),
@@ -385,7 +405,7 @@ class _ProfileState extends State<Profile> {
                                   }),
                                 ),
 
-                                SizedBox(height: 100,),
+                                SizedBox(height: 50,),
 
                                 Center(
                                   child: SizedBox(
@@ -400,10 +420,34 @@ class _ProfileState extends State<Profile> {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 16
+                                            fontSize: 20
                                         ),),
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color.fromRGBO(255, 199, 0, 1),
+                                        backgroundColor: Color.fromRGBO(148, 245, 148, 1),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(height: 15,),
+
+                                Center(
+                                  child: SizedBox(
+                                    width: 335,
+                                    height: 55,
+
+                                    child: ElevatedButton(
+                                      onPressed: (){
+                                        logOut();
+                                      },
+                                      child: Text("Logout",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20
+                                        ),),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
                                       ),
                                     ),
                                   ),
