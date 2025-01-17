@@ -107,7 +107,7 @@ class _OtpscreenState extends State<Otpscreen> {
         Fluttertoast.showToast(msg: "Welcome ${(snap.snapshot.value as dynamic)["name"]}");
         // Showsnackbar.showsuccessSnackbar("Susscessfull", "Welcome ${(snap.snapshot.value as dynamic)["name"]}");
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (c)=> Bottomnavigationbarscreen()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Bottomnavigationbarscreen(),), (route) => false,);
       }
       else{
         Navigator.pop(context);

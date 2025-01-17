@@ -42,50 +42,30 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tea Trover'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text("Confirm Logout"),
-                  content: const Text("Are you sure you want to log out?"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context); // Close the dialog
-                      },
-                      child: const Text("Cancel"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context); // Close the dialog
-                        _logout(); // Call the logout method
-                      },
-                      child: const Text("Logout"),
-                    ),
-                  ],
+        Widget build(BuildContext context) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Hi, ${userModelCurrrentInfo?.name ?? "User Name"}",style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                      ),
+                      ),
+                      SizedBox(width: 5,),
+
+                      CircleAvatar(backgroundImage: NetworkImage(userModelCurrrentInfo?.profilepic ?? ""),backgroundColor: Colors.white,),
+                      SizedBox(width: 5,),
+                    ],
+                  ),
                 ),
-              );
-            },
-          ),
-        ],
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Welcome to the Tea Trover!',
-              style: TextStyle(fontSize: 28),
-            ),
+              ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _onHistoryPressed,

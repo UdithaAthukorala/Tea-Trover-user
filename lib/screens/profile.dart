@@ -89,7 +89,6 @@ class _ProfileState extends State<Profile> {
           print("Error ocured : $error");
         });
       }
-
     }
     else{
       Fluttertoast.showToast(msg: "Saving Error");
@@ -98,21 +97,41 @@ class _ProfileState extends State<Profile> {
   }
 
   void logOut(){
-
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) => ProgressDialog()
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Confirm Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) => ProgressDialog()
+              );
+
+              FirebaseAuth.instance.signOut().then((onValue){
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Phonenumberverification(),), (route) => false,);
+
+              }).catchError((onError){
+                Navigator.pop(context);
+                Fluttertoast.showToast(msg: onError.message);
+              });
+            },
+            child: const Text("Logout"),
+          ),
+        ],
+      ),
     );
-
-    FirebaseAuth.instance.signOut().then((onValue){
-      Navigator.pop(context);
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Phonenumberverification(),), (route) => false,);
-
-    }).catchError((onError){
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: onError.message);
-    });
   }
 
   @override
@@ -137,7 +156,6 @@ class _ProfileState extends State<Profile> {
 
         child: ListView(
           children: [
-
             Padding(
               padding: const EdgeInsets.fromLTRB(20,50,20,0),
               child: Column(
@@ -151,7 +169,6 @@ class _ProfileState extends State<Profile> {
                   ),
 
                   SizedBox(height: 50,),
-
                   FutureBuilder(
                       future: firebaseDataLoader,
                       builder: (context,snap){
@@ -202,11 +219,8 @@ class _ProfileState extends State<Profile> {
                                 ),
 
                                 SizedBox(height: 15,),
-
                                 Align(alignment: Alignment.centerLeft,child: Text("Personal Details",style: TextStyle(fontWeight: FontWeight.bold),)),
-
                                 SizedBox(height: 15,),
-
                                 TextFormField(
                                   inputFormatters: [
                                     LengthLimitingTextInputFormatter(50)
@@ -452,6 +466,7 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
+
 
                               ],
                             ),
